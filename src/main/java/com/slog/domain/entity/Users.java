@@ -3,6 +3,8 @@ package com.slog.domain.entity;
 import com.slog.domain.dto.UserDto;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.Column;
@@ -11,7 +13,8 @@ import javax.persistence.Id;
 
 @Entity
 @Getter
-public class User {
+@NoArgsConstructor
+public class Users {
 
     @Id
     private Long no;
@@ -24,7 +27,7 @@ public class User {
     private Integer phoneNumber;
 
     @Builder
-    public User(Long no, String email, String password, String nickName, String sex, Integer phoneNumber) {
+    public Users(Long no, String email, String password, String nickName, String sex, Integer phoneNumber) {
         this.no = no;
         this.email = email;
         this.password = password;
@@ -33,4 +36,13 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
+    public static Users createUser(UserDto userDto, PasswordEncoder passwordEncoder) {
+        return Users.builder()
+                .nickName(userDto.getNickName())
+                .email(userDto.getEmail())
+                .password(passwordEncoder.encode(userDto.getPassword()))
+                .sex(userDto.getSex())
+                .phoneNumber(userDto.getPhoneNumber())
+                .build();
+    }
 }

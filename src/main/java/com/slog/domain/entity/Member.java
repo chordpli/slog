@@ -16,32 +16,37 @@ import javax.persistence.Id;
 public class Member {
 
     @Id
-    private Long no;
+    private Long memberNo;
 
-    @Column(unique = true)
-    private String email;
-    private String password;
-    private String nickName;
-    private Integer sex;
-    private String phoneNumber;
+    @Column(unique = true, name = "member_email")
+    private String memberEmail;
+
+    @Column(name = "member_password")
+    private String memberPassword;
+    @Column(name = "member_nickname")
+    private String memberNickname;
+    @Column(name = "member_sex")
+    private Integer memberSex;
+    @Column(name = "member_phone_number")
+    private String memberPhoneNumber;
 
     @Builder
-    public Member(Long no, String email, String password, String nickName, Integer sex, String phoneNumber) {
-        this.no = no;
-        this.email = email;
-        this.password = password;
-        this.nickName = nickName;
-        this.sex = sex;
-        this.phoneNumber = phoneNumber;
+    public Member(Long memberNo, String memberEmail, String memberPassword, String memberNickname, Integer memberSex, String memberPhoneNumber) {
+        this.memberNo = memberNo;
+        this.memberEmail = memberEmail;
+        this.memberPassword = memberPassword;
+        this.memberNickname = memberNickname;
+        this.memberSex = memberSex;
+        this.memberPhoneNumber = memberPhoneNumber;
     }
 
     public static Member createUser(MemberDto userDto, PasswordEncoder passwordEncoder) {
         return Member.builder()
-                .nickName(userDto.getNickName())
-                .email(userDto.getEmail())
-                .password(passwordEncoder.encode(userDto.getPassword()))
-                .sex(userDto.getSex())
-                .phoneNumber(userDto.getPhoneNumber())
+                .memberNickname(userDto.getMemberNickname())
+                .memberEmail(userDto.getMemberEmail())
+                .memberPassword(passwordEncoder.encode(userDto.getMemberPassword()))
+                .memberSex(userDto.getMemberSex())
+                .memberPhoneNumber(userDto.getMemberPhoneNumber())
                 .build();
     }
 }

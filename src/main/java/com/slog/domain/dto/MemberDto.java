@@ -9,7 +9,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 @Getter @NoArgsConstructor
-public class UserDto {
+public class MemberDto {
 
     
     private Long no;
@@ -25,13 +25,13 @@ public class UserDto {
     private String nickName;
 
     @NotBlank(message = "성별을 선택해주세요.")
-    private String sex;
+    private Integer sex;
 
     @NotBlank(message = "휴대폰 번호를 입력해주세요.")
-    private Integer phoneNumber;
+    private String phoneNumber;
 
     @Builder
-    public UserDto(Long no, String email, String password, String nickName, String sex, Integer phoneNumber) {
+    public MemberDto(Long no, String email, String password, String nickName, Integer sex, String phoneNumber) {
         this.no = no;
         this.email = email;
         this.password = password;

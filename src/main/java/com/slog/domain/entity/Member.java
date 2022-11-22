@@ -1,6 +1,6 @@
 package com.slog.domain.entity;
 
-import com.slog.domain.dto.UserDto;
+import com.slog.domain.dto.MemberDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +13,7 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Users {
+public class Member {
 
     @Id
     private Long no;
@@ -22,11 +22,11 @@ public class Users {
     private String email;
     private String password;
     private String nickName;
-    private String sex;
-    private Integer phoneNumber;
+    private Integer sex;
+    private String phoneNumber;
 
     @Builder
-    public Users(Long no, String email, String password, String nickName, String sex, Integer phoneNumber) {
+    public Member(Long no, String email, String password, String nickName, Integer sex, String phoneNumber) {
         this.no = no;
         this.email = email;
         this.password = password;
@@ -35,8 +35,8 @@ public class Users {
         this.phoneNumber = phoneNumber;
     }
 
-    public static Users createUser(UserDto userDto, PasswordEncoder passwordEncoder) {
-        return Users.builder()
+    public static Member createUser(MemberDto userDto, PasswordEncoder passwordEncoder) {
+        return Member.builder()
                 .nickName(userDto.getNickName())
                 .email(userDto.getEmail())
                 .password(passwordEncoder.encode(userDto.getPassword()))

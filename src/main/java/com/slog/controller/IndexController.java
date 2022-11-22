@@ -11,6 +11,12 @@ public class IndexController {
     @GetMapping("/")
     public String index(){
         log.info("index");
-        return "";
+        return "index";
+    }
+
+    @GetMapping("/index")
+    public String redirectIndex(){
+        log.info("index");
+        return "redirect:./";
     }
 }

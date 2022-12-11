@@ -1,39 +1,50 @@
 package com.slog.controller;
 
+import com.slog.domain.Response;
 import com.slog.domain.dto.MemberDto;
-import com.slog.domain.entity.Member;
+import com.slog.domain.dto.MemberJoinRequest;
+import com.slog.domain.dto.MemberLoginRequest;
+import com.slog.domain.dto.MemberLoginResponse;
 import com.slog.service.MemberService;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
-
-@Controller
-@RequestMapping("/member")
+@RestController
+@AllArgsConstructor
+@RequestMapping("/api/v1/members")
+@Slf4j
 public class MemberController {
-    MemberService memberService;
+    private final MemberService memberService;
 
-    public MemberController(MemberService memberService) {
-        this.memberService = memberService;
-    }
 
-    @GetMapping("/login")
-    public String loginForm(){
-        System.out.println("로그인 폼 입니다.");
-        return "member/login";
+    @PostMapping("/join")
+    public Response<MemberLoginResponse> join(@RequestBody MemberJoinRequest dto) {
+        MemberDto member = memberService.join(dto);
+        return Response.success(
+                MemberLoginResponse.builder()
+                        .memberEmail(member.getMemberEmail())
+                        .memberNickname(member.getMemberNickname())
+                        .memberStatus(member.getMemberStatus())
+                        .build()
+        );
     }
 
     @PostMapping("/login")
-    public String login(MemberDto memberDto, Model model) {
-        Optional<Member> member = memberService.login(memberDto);
-        member.ifPresent(value -> model.addAttribute("member", value));
-        System.out.println(member);
-        return"redirect:/index";
+    public Response<String> login(@RequestBody  MemberLoginRequest dto) {
+        log.info("memberEmail = {}", dto.getMemberEmail());
+        String token = memberService.login(dto);
+        return Response.success(token);
     }
 
-
-
+    @PostMapping("/test")
+    public Response<String> test(Authentication authentication) {
+        String name = authentication.getName();
+        log.info("userName = {}", name);
+        return Response.success(name);
+    }
 }

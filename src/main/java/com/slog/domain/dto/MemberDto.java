@@ -1,18 +1,26 @@
 package com.slog.domain.dto;
 
+import com.slog.domain.enums.MemberStatus;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 @Getter @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class MemberDto {
 
     
     private Long no;
+
     @NotBlank(message = "이메일을 입력해주세요.")
     @Email(message = "이메일 형식으로 입력해주세요.")
     private String memberEmail;
@@ -24,19 +32,11 @@ public class MemberDto {
     @NotBlank(message = "닉네임을 입력해주세요.")
     private String memberNickname;
 
-    @NotBlank(message = "성별을 선택해주세요.")
-    private Integer memberSex;
+    private String memberAuthKey;
 
-    @NotBlank(message = "휴대폰 번호를 입력해주세요.")
-    private String memberPhoneNumber;
+    private MemberStatus memberStatus;
 
-    @Builder
-    public MemberDto(Long no, String memberEmail, String memberPassword, String memberNickname, Integer memberSex, String memberPhoneNumber) {
-        this.no = no;
-        this.memberEmail = memberEmail;
-        this.memberPassword = memberPassword;
-        this.memberNickname = memberNickname;
-        this.memberSex = memberSex;
-        this.memberPhoneNumber = memberPhoneNumber;
-    }
+    private String memberSnsProvider;
+
+
 }

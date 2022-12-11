@@ -1,52 +1,41 @@
 package com.slog.domain.entity;
 
-import com.slog.domain.dto.MemberDto;
+import com.slog.domain.enums.MemberStatus;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class Member {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberNo;
 
-    @Column(unique = true, name = "member_email")
+    @Column(unique = true, nullable = true, name = "member_email")
     private String memberEmail;
 
-    @Column(name = "member_password")
+    @Column(nullable = true, name = "member_password")
     private String memberPassword;
-    @Column(name = "member_nickname")
+
+    @Column(unique = true, nullable = true, name = "member_nickname")
     private String memberNickname;
-    @Column(name = "member_sex")
-    private Integer memberSex;
-    @Column(name = "member_phone_number")
-    private String memberPhoneNumber;
 
-    @Builder
-    public Member(Long memberNo, String memberEmail, String memberPassword, String memberNickname, Integer memberSex, String memberPhoneNumber) {
-        this.memberNo = memberNo;
-        this.memberEmail = memberEmail;
-        this.memberPassword = memberPassword;
-        this.memberNickname = memberNickname;
-        this.memberSex = memberSex;
-        this.memberPhoneNumber = memberPhoneNumber;
-    }
+    @Column(name = "member_auth_key")
+    private String memberAuthKey;
 
-    public static Member createUser(MemberDto userDto, PasswordEncoder passwordEncoder) {
-        return Member.builder()
-                .memberNickname(userDto.getMemberNickname())
-                .memberEmail(userDto.getMemberEmail())
-                .memberPassword(passwordEncoder.encode(userDto.getMemberPassword()))
-                .memberSex(userDto.getMemberSex())
-                .memberPhoneNumber(userDto.getMemberPhoneNumber())
-                .build();
-    }
+    @Column(name = "member_status")
+    @Enumerated(EnumType.STRING)
+    private MemberStatus memberStatus;
+
+    @Column(name = "member_sns_provider")
+    private String memberSnsProvider;
+
 }

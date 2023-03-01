@@ -57,4 +57,4 @@ jobs:
         aws s3 cp \
         --region ap-northeast-2 \
         --acl private \
-  ./slog.zip s3://my-work-project/
+  ./my-work-project.zip s3://my-work-project/

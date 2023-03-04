@@ -19,3 +19,8 @@ spring:
 
 jwt:
   secret: slog.secret.key
+
+logging:
+  file:
+    path: /var/log/slog
+    name: slog.log

@@ -123,3 +123,11 @@ tasks.named('asciidoctor') {
     inputs.dir snippetsDir
     dependsOn test
 }
+
+jar {
+    enabled = false
+}
+
+tasks.getByName<Jar>("jar") {
+    enabled = false
+}

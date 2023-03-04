@@ -1,7 +1,8 @@
 server:
   servlet:
     encoding:
-      force-response:true
+      force-response: true
+      charset: utf-8
 
 spring:
   datasource:
@@ -18,4 +19,3 @@ spring:
 
 jwt:
   secret: slog.secret.key
-

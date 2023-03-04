@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -34,6 +35,8 @@ public class SecurityConfig {
 		http
 			.csrf().disable()
 			.authorizeHttpRequests()
+			.antMatchers(HttpMethod.GET,"/**")
+			.permitAll()
 			.antMatchers("/**/auth/**")
 			.permitAll()
 			.anyRequest()

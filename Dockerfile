@@ -16,10 +16,18 @@ FROM openjdk:11-jre-slim
 WORKDIR /app
 
 # 빌드된 jar 파일 복사
-COPY --from=builder /build/build/libs/*.jar /app/slog.jar
+COPY --from=builder /build/build/libs/*-SNAPSHOT.jar ./app.jar
 
 # 환경변수 설정 (옵션)
 ENV SPRING_PROFILES_ACTIVE=prod
 
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "/app/slog.jar"]
+
+USER nobody
+ENTRYPOINT [                                                \
+    "java",                                                 \
+    "-jar",                                                 \
+    "-Djava.security.egd=file:/dev/./urandom",              \
+    "-Dsun.net.inetaddr.ttl=0",                             \
+    "app.jar"              \
+]

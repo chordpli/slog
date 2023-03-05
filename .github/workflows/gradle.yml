@@ -93,4 +93,4 @@ jobs:
             --s3-location bucket=$S3_BUCKET_NAME,key=$GITHUB_SHA.zip,bundleType=zip
       # (10) Deploy Docker image to EC2 instance
       - name: Deploy Docker image to EC2
-        run: ../scripts/deploy_docker.sh
+        run: ./scripts/deploy_docker.sh

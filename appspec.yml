@@ -2,11 +2,13 @@ version: 0.0
 os: linux
 
 files:
-  - source:  /
+  - source: /
     destination: /home/ubuntu/app
     overwrite: yes
 
 permissions:
+  - object: /scripts/deploy_docker.sh
+    mode: "755"
   - object: /
     pattern: "**"
     owner: ubuntu

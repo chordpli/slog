@@ -54,7 +54,12 @@ jobs:
       # (6) Docker 이미지를 tar로 저장 후 S3에 업로드
       - name: Upload Docker image to S3
         run: |
-          docker save slog:${{ github.sha }} | gzip | aws s3 cp - s3://$S3_BUCKET_NAME/slog-$GITHUB_SHA.tar.gz --region $AWS_REGION
+          docker save slog:${{ github.sha }} | gzip |
+          aws deploy push \
+          --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
+          --ignore-hidden-files \
+          --s3-location s3://$S3_BUCKET_NAME/slog-${{ github.sha }}.zip \
+          --source .
 
       # (7) AWS 인증 (IAM 사용자 Access Key, Secret Key 활용)
       - name: Configure AWS credentials

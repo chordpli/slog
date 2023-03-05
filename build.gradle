@@ -40,11 +40,6 @@ bootJar {
         from "${asciidoctor.outputDir}"
         into 'BOOT-INF/classes/static/docs'
     }
-    doFirst {
-        manifest {
-            attributes 'Main-Class': 'com.slog.SlogApplication'
-        }
-    }
 }
 
 task copyDocument(type: Copy) {
@@ -83,7 +78,7 @@ jacocoTestCoverageVerification {
             limit {
                 counter = 'BRANCH'
                 value = 'COVEREDRATIO'
-                minimum = 0.10
+                minimum = 0.90
             }
         }
     }

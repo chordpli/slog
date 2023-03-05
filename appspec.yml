@@ -13,7 +13,11 @@ permissions:
     group: ubuntu
 
 hooks:
-  DeployDocker:
-    - location: scripts/deploy-docker.sh
-      timeout: 120
+  AfterInstall:
+    - location: scripts/stop.sh
+      timeout: 60
+      runas: ubuntu
+  ApplicationStart:
+    - location: scripts/start.sh
+      timeout: 60
       runas: ubuntu

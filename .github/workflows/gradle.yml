@@ -58,7 +58,7 @@ jobs:
           aws deploy push \
           --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
           --ignore-hidden-files \
-          --s3-location s3://$S3_BUCKET_NAME/slog-${{ github.sha }}.zip \
+          --s3-location s3://$S3_BUCKET_NAME/slog-${{ github.sha }}.tar.gz \
           --source .
 
       # (7) AWS 인증 (IAM 사용자 Access Key, Secret Key 활용)

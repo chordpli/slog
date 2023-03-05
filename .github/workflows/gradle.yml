@@ -30,40 +30,37 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
-#
-#      # (+++) application.properties 생성
-#      - name: make application.properties
-#        run:
-#          mkdir ./src/main/resources |
-#          touch ./src/main/resources/application.properties
-#        shell: bash
-#      - name: deliver application.properties
-#        run: echo "${{ secrets.PROPERTIES }}" > ./src/main/resources/application.properties
-#        shell: bash
-#      # (+++) application.yml 생성
-#      - name: make application.yml
-#        run: touch ./src/main/resources/application.yml
-#        shell: bash
-#      - name: deliver application.yml
-#        run: echo "${{ secrets.APPLICATION }}" > ./src/main/resources/application.yml
-#        shell: bash
-#      # (++++)
-#      - uses: actions/upload-artifact@v2
-#        with:
-#          name: application.properties
-#          path: ./src/main/resources/application.properties
 
       # (3) gradlew 실행 권한부여
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-        # (3) Gradle build (Test 제외)
+      # (4) Gradle build (Test 제외)
       - name: Build with Gradle
         uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
         with:
           arguments: clean build -x test
         #run : ./gradlew clean build --exclude-task test
 
-      # (4) AWS 인증 (IAM 사용자 Access Key, Secret Key 활용)
+      # (5) Docker 이미지 빌드 및 태그
+      - name: Build Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          tags: |
+            slog:${{ github.sha }}
+            slog:latest
+
+      # (6) Docker 이미지 실행
+      - name: Run Docker container
+        run: |
+          docker run -d \
+            -p 8080:8080 \
+            --name slog \
+            slog:${{ github.sha }}
+
+      # (7) AWS 인증 (IAM 사용자 Access Key, Secret Key 활용)
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -71,7 +68,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_ID }}
           aws-region: ${{ env.AWS_REGION }}
 
-      # (5) 빌드 결과물을 S3 버킷에 업로드
+      # (8) 빌드 결과물을 S3 버킷에 업로드
       - name: Upload to AWS S3
         run: |
           aws deploy push \
@@ -79,7 +76,8 @@ jobs:
             --ignore-hidden-files \
             --s3-location s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip \
             --source .
-      # (6) S3 버킷에 있는 파일을 대상으로 CodeDeploy 실행
+
+      # (9) S3 버킷에 있는 파일을 대상으로 CodeDeploy 실행
       - name: Deploy to AWS EC2 from S3
         run: |
           aws deploy create-deployment \

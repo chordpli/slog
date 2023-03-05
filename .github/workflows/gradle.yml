@@ -40,18 +40,33 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew clean build -x test --warning-mode all
 
-      # (5) Docker 이미지 빌드 및 태그
+      # (5) Docker 이미지 빌드
       - name: Build Docker image
+        run: docker build -t slog:${{ github.sha }} .
+
+      # (6) Docker 이미지 태그
+      - name: Tag Docker image
+        run: |
+          docker tag slog:${{ github.sha }} slog:latest
+
+      # (7) Docker 이미지 Push
+      - name: Push Docker image
         uses: docker/build-push-action@v2
         with:
           context: .
           file: ./Dockerfile
-          push: false
+          push: true
           tags: |
             slog:${{ github.sha }}
             slog:latest
 
-      # (6) Docker 컨테이너 실행
+      # (8) Stop and remove existing container (if exists)
+      - name: Stop and remove existing container
+        run: |
+          docker stop slog || true
+          docker rm slog || true
+
+      # (9) Docker 컨테이너 실행
       - name: Run Docker container
         run: |
           docker run -d \

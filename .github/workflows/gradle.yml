@@ -46,18 +46,15 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          push: true
+          push: false
           tags: |
             slog:${{ github.sha }}
             slog:latest
 
-      # (6) Docker 컨테이너 실행
-      - name: Run Docker container
+      # (6) Docker 이미지를 tar로 저장 후 S3에 업로드
+      - name: Upload Docker image to S3
         run: |
-          docker run -d \
-            -p 8080:8080 \
-            --name slog \
-            slog:${{ github.sha }}
+          docker save slog:${{ github.sha }} | gzip | aws s3 cp - s3://$S3_BUCKET_NAME/slog-${{ github.sha }}.tar.gz --region $AWS_REGION
 
       # (7) AWS 인증 (IAM 사용자 Access Key, Secret Key 활용)
       - name: Configure AWS credentials
@@ -67,20 +64,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_ID }}
           aws-region: ${{ env.AWS_REGION }}
 
-      # (8) 빌드 결과물을 S3 버킷에 업로드
-      - name: Upload to AWS S3
-        run: |
-          aws deploy push \
-            --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
-            --ignore-hidden-files \
-            --s3-location s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip \
-            --source .
-
-      # (9) S3 버킷에 있는 파일을 대상으로 CodeDeploy 실행
-      - name: Deploy to AWS EC2 from S3
+      # (8) CodeDeploy를 사용하여 EC2에 배포
+      - name: Deploy to AWS EC2 using CodeDeploy
         run: |
           aws deploy create-deployment \
             --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
             --deployment-config-name CodeDeployDefault.AllAtOnce \
             --deployment-group-name ${{ env.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} \
-            --s3-location bucket=$S3_BUCKET_NAME,key=$GITHUB_SHA.zip,bundleType=zip
+            --s3-location bucket=$S3_BUCKET_NAME,key=slog-${{ github.sha }}.tar.gz,bundleType=gzip

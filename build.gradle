@@ -40,6 +40,11 @@ bootJar {
         from "${asciidoctor.outputDir}"
         into 'BOOT-INF/classes/static/docs'
     }
+    doFirst {
+        manifest {
+            attributes 'Main-Class': 'com.slog.SlogApplication'
+        }
+    }
 }
 
 task copyDocument(type: Copy) {

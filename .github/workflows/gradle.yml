@@ -52,9 +52,18 @@ jobs:
             slog:latest
 
       # (6) Docker 이미지를 tar로 저장 후 S3에 업로드
+      - name: Save Docker image to tar
+        run: docker save slog:${{ github.sha }} | gzip > slog-${{ github.sha }}.tar.gz
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_ID }}
+          aws-region: ${{ env.AWS_REGION }}
+
       - name: Upload Docker image to S3
         run: |
-          docker save slog:${{ github.sha }} | gzip > slog-${{ github.sha }}.tar.gz &&
           aws s3 cp slog-${{ github.sha }}.tar.gz s3://$S3_BUCKET_NAME/slog-${{ github.sha }}.tar.gz
 
       # (7) AWS 인증 (IAM 사용자 Access Key, Secret Key 활용)

@@ -14,6 +14,6 @@ permissions:
 
 hooks:
   DeployDocker:
-    - location: scripts/deploy-docker.sh
+    - location: scripts/deploy_docker.sh
       timeout: 120
       runas: ubuntu

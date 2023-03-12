@@ -1,3 +1,4 @@
+# 그래들 버전, JDK버전에 따라 다르게 수정
 FROM gradle:7.6-jdk11-alpine as builder
 WORKDIR /build
 

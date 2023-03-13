@@ -39,6 +39,9 @@ env:
   # file, e.g. .aws/task-definition.json
   CONTAINER_NAME: slog-container               # set this to the name of the container in the
   # containerDefinitions section of your task definition
+  env:
+    SPRING_DATASOURCE_URL: ${{ secrets.SPRING_DATASOURCE_URL }}
+    SPRING_DATASOURCE_PASSWORD: ${{ secrets.SPRING_DATASOURCE_PASSWORD }}
 
 permissions:
   contents: read
@@ -82,11 +85,7 @@ jobs:
           task-definition: ${{ env.ECS_TASK_DEFINITION }}
           container-name: ${{ env.CONTAINER_NAME }}
           image: ${{ steps.build-image.outputs.image }}
-          env-map: |
-            {
-              "SPRING_DATASOURCE_URL": "${{ secrets.SPRING_DATASOURCE_URL }}",
-              "SPRING_DATASOURCE_PASSWORD": "${{ secrets.SPRING_DATASOURCE_PASSWORD }}"
-            }
+          env-map: ${{ toJson(env) }}
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1

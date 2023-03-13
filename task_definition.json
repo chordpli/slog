@@ -25,10 +25,7 @@
       "command": [],
       "linuxParameters": null,
       "cpu": 0,
-      "environment": [
-        { "name": "SPRING_DATASOURCE_URL", "value": "${{ env.SPRING_DATASOURCE_URL }}" },
-        { "name": "SPRING_DATASOURCE_PASSWORD", "value": "${{ env.SPRING_DATASOURCE_PASSWORD }}" }
-      ],
+      "environment": [],
       "resourceRequirements": null,
       "ulimits": null,
       "dnsServers": null,

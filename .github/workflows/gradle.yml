@@ -92,3 +92,4 @@ jobs:
           service: ${{ env.ECS_SERVICE }}
           cluster: ${{ env.ECS_CLUSTER }}
           wait-for-service-stability: true
+          container-env: '{"SPRING_DATASOURCE_URL":"${{ secrets.SPRING_DATASOURCE_URL }}", "SPRING_DATASOURCE_PASSWORD":"${{ secrets.SPRING_DATASOURCE_PASSWORD }}"}'

@@ -82,11 +82,17 @@ jobs:
           task-definition: ${{ env.ECS_TASK_DEFINITION }}
           container-name: ${{ env.CONTAINER_NAME }}
           image: ${{ steps.build-image.outputs.image }}
-          env-map: |
-            {
-              "SPRING_DATASOURCE_URL": "${{ secrets.SPRING_DATASOURCE_URL }}",
-              "SPRING_DATASOURCE_PASSWORD": "${{ secrets.SPRING_DATASOURCE_PASSWORD }}"
-            }
+          environment: |
+            [
+              {
+                "name": "SPRING_DATASOURCE_URL",
+                "value": "${{ secrets.SPRING_DATASOURCE_URL }}"
+              },
+              {
+                "name": "SPRING_DATASOURCE_PASSWORD",
+                "value": "${{ secrets.SPRING_DATASOURCE_PASSWORD }}"
+              }
+            ]
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1

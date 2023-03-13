@@ -26,8 +26,8 @@
       "linuxParameters": null,
       "cpu": 0,
       "environment": [
-        { "name": "SPRING_DATASOURCE_URL", "value": "..." },
-        { "name": "SPRING_DATASOURCE_PASSWORD", "value": "..." }
+        { "name": "SPRING_DATASOURCE_URL", "value": "${{ env.SPRING_DATASOURCE_URL }}" },
+        { "name": "SPRING_DATASOURCE_PASSWORD", "value": "${{ env.SPRING_DATASOURCE_PASSWORD }}" }
       ],
       "resourceRequirements": null,
       "ulimits": null,

@@ -1,0 +1,42 @@
+package com.slog.domain;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.http.ResponseEntity;
+
+import com.slog.domain.enums.ResultCode;
+
+import lombok.Getter;
+
+@Getter
+public class Response<T> {
+	private final ResultCode resultCode;
+	private final T data;
+
+	private Response(ResultCode resultCode, T data) {
+		this.resultCode = resultCode;
+		this.data = data;
+	}
+
+	public static <T> Response<T> success(T data) {
+		return new Response<>(ResultCode.SUCCESS, data);
+	}
+
+	public static <T> Response<T> error(ResultCode resultCode) {
+		return new Response<>(resultCode, null);
+	}
+
+	public static <T> Response<T> error(ResultCode resultCode, T data) {
+		return new Response<>(resultCode, data);
+	}
+
+	public ResponseEntity<Object> toResponseEntity() {
+		Map<String, Object> responseMap = new HashMap<>();
+		responseMap.put("code", resultCode.getCode());
+		responseMap.put("message", resultCode.getMessage());
+		responseMap.put("data", data);
+
+		return ResponseEntity.status(resultCode.getHttpStatus()).body(responseMap);
+	}
+}

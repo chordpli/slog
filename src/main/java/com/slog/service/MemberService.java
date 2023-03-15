@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.slog.config.JwtUtils;
 import com.slog.domain.dto.AuthenticationRequest;
+import com.slog.exception.ErrorCode;
+import com.slog.exception.SlogAppException;
 import com.slog.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -25,7 +27,7 @@ public class MemberService {
 
 	public String authentication(AuthenticationRequest request) {
 		final UserDetails user = memberRepository.findByMemberEmail(request.getEmail())
-			.orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 회원입니다."));
+			.orElseThrow(() -> new SlogAppException(ErrorCode.MEMBER_NOT_FOUND, "존재하지 않는 회원입니다."));
 
 		if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
 			authenticationManager.authenticate(
@@ -34,6 +36,6 @@ public class MemberService {
 			log.info("인증 성공: {}", request.getEmail());
 			return jwtUtils.generateToken(user);
 		}
-		throw new IllegalStateException("인증에 실패하였습니다.");
+		throw new SlogAppException(ErrorCode.INVALID_PASSWORD, "인증에 실패하였습니다.");
 	}
 }

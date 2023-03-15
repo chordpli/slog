@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.slog.domain.Response;
 import com.slog.domain.dto.AuthenticationRequest;
+import com.slog.exception.SlogAppException;
 import com.slog.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,10 @@ public class AuthenticationController {
 
 	@PostMapping("/authenticate")
 	public Response<String> authenticate(@RequestBody final @Valid AuthenticationRequest request) {
-		return Response.success(memberService.authentication(request));
+		try {
+			return Response.success(memberService.authentication(request));
+		} catch (SlogAppException e) {
+			return Response.error(e.getErrorCode().getResultCode(), e.getMessage());
+		}
 	}
 }

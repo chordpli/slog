@@ -44,21 +44,21 @@ public class Member implements UserDetails {
 
 	@Override
 	public boolean isAccountNonExpired() {
-		return true;
+		return memberStatus.isAccountNonExpired(); // MemberStatus를 기반으로 반환
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return true;
+		return memberStatus.isAccountNonLocked(); // MemberStatus를 기반으로 반환
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		return true;
+		return memberStatus.isCredentialsNonExpired(); // MemberStatus를 기반으로 반환
 	}
 
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return memberStatus.isEnabled();
 	}
 }

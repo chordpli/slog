@@ -5,6 +5,7 @@ import com.slog.domain.enums.MemberStatus;
 import java.util.Collection;
 import java.util.Collections;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,15 +15,27 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Builder
 public class Member implements UserDetails {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long memberNo;
 
+	@Column(unique = true)
 	private String memberEmail;
 	private String memberPassword;
+
+	@Column(unique = true)
 	private String memberNickname;
 	private MemberStatus memberStatus;
 	private String memberSNSProvider;

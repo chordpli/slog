@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @Getter
 public enum ErrorCode {
   NOT_FOUND(ResultCode.NOT_FOUND, "해당 페이지를 찾을 수 없습니다."),
-  DUPLICATED_MEMBER_NAME(ResultCode.CONFLICT, "이미 존재하고 있는 사용자입니다."),
   MEMBER_NOT_FOUND(ResultCode.NOT_FOUND, "존재하지 않는 사용자입니다."),
   INVALID_PASSWORD(ResultCode.UNAUTHORIZED, "잘못된 비밀번호입니다."),
   INCONSISTENT_INFORMATION(ResultCode.CONFLICT, "일치하지 않는 정보입니다."),
@@ -26,7 +25,9 @@ public enum ErrorCode {
   INVALID_PERMISSION(ResultCode.UNAUTHORIZED, "사용자가 권한이 없습니다."),
   NOT_EXIST_TOKEN(ResultCode.UNAUTHORIZED, "토큰이 존재하지 않습니다."),
   NOT_ENOUGH_POINTS(ResultCode.INVALID_ARGUMENT, "포인트가 부족합니다."),
-  ;
+  DUPLICATED_MEMBER_EMAIL(ResultCode.CONFLICT, "이미 사용중인 이메일입니다."),
+  DUPLICATED_MEMBER_NICKNAME(ResultCode.CONFLICT, "이미 사용중인 닉네임입니다." ),
+  DUPLICATED_MEMBER_INFO(ResultCode.CONFLICT, "이미 존재하는 사용자입니다.." );
 
   private ResultCode resultCode;
   private String message;

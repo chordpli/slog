@@ -3,12 +3,14 @@ package com.slog.service;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.slog.config.JwtUtils;
-import com.slog.domain.dto.AuthenticationRequest;
+import com.slog.domain.dto.member.AuthenticationRequest;
+import com.slog.domain.dto.member.JoinRequest;
+import com.slog.domain.dto.member.JoinResponse;
+import com.slog.domain.entity.Member;
 import com.slog.exception.ErrorCode;
 import com.slog.exception.SlogAppException;
 import com.slog.repository.MemberRepository;
@@ -36,6 +38,20 @@ public class MemberService {
 			log.info("인증 성공: {}", request.getEmail());
 			return jwtUtils.generateToken(user);
 		}
-		throw new SlogAppException(ErrorCode.INVALID_PASSWORD, "인증에 실패하였습니다.");
+		throw new SlogAppException(ErrorCode.INCONSISTENT_INFORMATION, ErrorCode.INCONSISTENT_INFORMATION.getMessage());
+	}
+
+	public JoinResponse join(JoinRequest request) {
+		// 중복된 이메일이나 닉네임이 이미 존재하는 경우 예외를 발생시킴
+		if (memberRepository.existsByMemberEmail(request.getMemberEmail())) {
+			throw new SlogAppException(ErrorCode.DUPLICATED_MEMBER_EMAIL, ErrorCode.DUPLICATED_MEMBER_EMAIL.getMessage());
+		}
+		if (memberRepository.existsByMemberNickname(request.getMemberNickname())) {
+			throw new SlogAppException(ErrorCode.DUPLICATED_MEMBER_NICKNAME, ErrorCode.DUPLICATED_MEMBER_NICKNAME.getMessage());
+		}
+
+		Member member = memberRepository.save(JoinRequest.toEntity(request, passwordEncoder));
+
+		return JoinResponse.of(member);
 	}
 }

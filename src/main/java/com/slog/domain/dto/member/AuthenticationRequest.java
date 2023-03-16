@@ -1,4 +1,4 @@
-package com.slog.domain.dto;
+package com.slog.domain.dto.member;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

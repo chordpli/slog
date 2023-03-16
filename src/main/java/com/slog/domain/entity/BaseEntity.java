@@ -18,7 +18,6 @@ import lombok.ToString;
 @Setter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-@ToString
 public abstract class BaseEntity {
 
     @Column(nullable = false, updatable = false)

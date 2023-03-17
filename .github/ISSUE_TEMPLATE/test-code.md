@@ -1,8 +1,8 @@
 ---
 name: Test Code
 about: 테스트를 수행하기 위한 기본 항목들을 포함하고 있어, 테스트를 체계적으로 수행할 수 있도록 돕습니다.
-title: ''
-labels: ''
+title: 'test: '
+labels: test
 assignees: ''
 
 ---

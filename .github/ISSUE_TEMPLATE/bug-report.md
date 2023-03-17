@@ -1,7 +1,7 @@
 ---
 name: Bug Report
 about: 버그 설명, 버그 재현 방법, 예상 동작, 실제 동작, 추가 정보 등을 체계적으로 수집하기 위해 사용됩니다.
-title: "[BUG]"
+title: "bug: "
 labels: bug
 assignees: ''
 

@@ -1,7 +1,7 @@
 ---
 name: Documentation
 about: 문서 작성에 필요한 기본 항목들을 포함하고 있어, 문서 작성을 보다 체계적으로 수행할 수 있도록 돕습니다.
-title: "[DOCS]"
+title: "docs: "
 labels: documentation
 assignees: ''
 

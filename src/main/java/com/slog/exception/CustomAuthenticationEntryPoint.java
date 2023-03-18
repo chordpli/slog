@@ -3,16 +3,20 @@ package com.slog.exception;
 import static com.slog.exception.ErrorCode.*;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.slog.domain.Response;
+import com.slog.domain.enums.ResultCode;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,5 +51,13 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
     private void setResponse(HttpServletResponse response, ErrorCode errorCode) throws IOException {
 
+        ResultCode resultCode = errorCode.getResultCode();
+        Response<Map<String, Object>> errorResponse = Response.error(resultCode, Map.of("errorCode", errorCode.name(), "message", errorCode.getMessage()));
+        ResponseEntity<Object> responseEntity = errorResponse.toResponseEntity();
+
+        response.setContentType("application/json;charset=UTF-8");
+        response.setStatus(responseEntity.getStatusCodeValue());
+
+        response.getWriter().println(objectMapper.writeValueAsString(responseEntity.getBody()));
     }
 }

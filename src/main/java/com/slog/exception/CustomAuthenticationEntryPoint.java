@@ -29,24 +29,25 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         String exception = (String) request.getAttribute("exception");
-        ErrorCode errorCode;
+        ErrorCode errorCode = null;
 
         log.debug("log: exception: {} ", exception);
 
-        if (exception.equals(UNKNOWN_ERROR.name())) {
+        for (ErrorCode e : ErrorCode.values()) {
+            if (e.name().equals(exception)) {
+                errorCode = e;
+                break;
+            }
+        }
+
+        if (errorCode == null) {
+            errorCode = ErrorCode.UNKNOWN_ERROR;
             log.info("알 수 없는 에러가 발생하였습니다.");
-            setResponse(response, UNKNOWN_ERROR);
-
-        }
-        if (exception.equals(INVALID_TOKEN.name())) {
-            log.info("토큰이 만료되었습니다.");
-            setResponse(response, INVALID_TOKEN);
+        } else {
+            log.info("{}: {}", errorCode.name(), errorCode.getMessage());
         }
 
-        if (exception.equals(INVALID_PERMISSION.name())) {
-            log.info("권한이 없습니다.");
-            setResponse(response, INVALID_PERMISSION);
-        }
+        setResponse(response, errorCode);
     }
 
     private void setResponse(HttpServletResponse response, ErrorCode errorCode) throws IOException {

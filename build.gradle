@@ -85,6 +85,21 @@ jacocoTestReport {
 }
 
 jacocoTestCoverageVerification {
+    dependsOn test
+
+    afterEvaluate {
+        classDirectories.from = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    '**/config/**',
+                    '**/exception/**',
+                    '**/utils/**',
+                    'com/slog/controller/IndexRestController.class',
+                    'com/slog/SlogApplication.class',
+                    '**/domain/**'
+            ])
+        })
+    }
+
     violationRules {
         rule {
             enabled = true // 활성화
@@ -105,12 +120,6 @@ jacocoTestCoverageVerification {
                 minimum = 0.80
             }
 
-            excludes = ['**/config/**',
-                        '**/exception/**',
-                        '**/utils/**',
-                        'com/slog/controller/IndexRestController.class',
-                        'com/slog/SlogApplication.class',
-                        '**/domain/**']
         }
     }
 }

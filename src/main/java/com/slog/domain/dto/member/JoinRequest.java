@@ -6,19 +6,21 @@ import javax.validation.constraints.Size;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.slog.utils.PasswordValidator;
 import com.slog.domain.entity.Member;
 import com.slog.domain.enums.MemberStatus;
 import com.slog.exception.ErrorCode;
 import com.slog.exception.SlogAppException;
+import com.slog.utils.PasswordValidator;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Builder
 public class JoinRequest {
 
 	@NotBlank

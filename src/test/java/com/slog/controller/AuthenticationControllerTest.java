@@ -88,7 +88,7 @@ class AuthenticationControllerTest {
 			.andExpect(jsonPath("$.data.memberEmail").value("test@email.com"))
 			.andExpect(jsonPath("$.data.memberNickname").value("test"))
 			.andDo(print())
-			.andDo(document("join-success",
+			.andDo(document("auth/join-success",
 				preprocessRequest(prettyPrint()),
 				preprocessResponse(prettyPrint()),
 				requestFields(
@@ -122,7 +122,7 @@ class AuthenticationControllerTest {
 				.content(objectMapper.writeValueAsBytes(request)))
 			.andExpect(status().isConflict())
 			.andDo(print())
-			.andDo(document("join-fail-duplicated-member",
+			.andDo(document("auth/join-fail-duplicated-member",
 				preprocessRequest(prettyPrint()),
 				preprocessResponse(prettyPrint()),
 				requestFields(
@@ -156,7 +156,7 @@ class AuthenticationControllerTest {
 			.andExpect(jsonPath("$.resultCode").value("SUCCESS"))
 			.andExpect(jsonPath("$.data").value(token))
 			.andDo(print())
-			.andDo(document("authenticate-success",
+			.andDo(document("auth/authenticate-success",
 				preprocessRequest(prettyPrint()),
 				preprocessResponse(prettyPrint()),
 				requestFields(
@@ -185,7 +185,7 @@ class AuthenticationControllerTest {
 				.content(objectMapper.writeValueAsBytes(request)))
 			.andExpect(status().isConflict())
 			.andDo(print())
-			.andDo(document("authenticate-fail-inconsistent-information",
+			.andDo(document("auth/authenticate-fail-inconsistent-information",
 				preprocessRequest(prettyPrint()),
 				preprocessResponse(prettyPrint()),
 				requestFields(

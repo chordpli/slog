@@ -1,0 +1,16 @@
+=== 1. CREATE USER
+
+==== 회원가입
+
+`*_1. Success_*`
+
+**request-fields**
+
+include::{snippets}/auth/join-success/request-fields.adoc[]
+
+**Example request**
+include::{snippets}/auth/join-success/http-request.adoc[]
+
+**Example response**
+
+include::{snippets}/auth/join-success/http-response.adoc[]

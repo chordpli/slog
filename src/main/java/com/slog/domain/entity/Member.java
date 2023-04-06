@@ -7,9 +7,12 @@ import java.util.Collections;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -39,6 +42,10 @@ public class Member implements UserDetails {
 	private String memberNickname;
 	private MemberStatus memberStatus;
 	private String memberSNSProvider;
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "blog_no")
+	private Blog blog;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

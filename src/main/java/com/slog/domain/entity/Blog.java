@@ -23,10 +23,16 @@ public class Blog {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long blogNo;
+	private Long blogId;
 
 	private String blogTitle;
 
 	private String blogLogoUrl;
 
+	public static Blog of(String memberNickname) {
+		return Blog.builder()
+			.blogLogoUrl("basic img url")
+			.blogTitle(memberNickname + "님의 블로그")
+			.build();
+	}
 }

@@ -13,15 +13,17 @@ import lombok.NoArgsConstructor;
 @Builder
 public class JoinResponse {
 
-	private Long memberNo;
+	private Long memberId;
 	private String memberEmail;
 	private String memberNickname;
+	private Long blogId;
 
 	public static JoinResponse of(Member member) {
 		return JoinResponse.builder()
-			.memberNo(member.getMemberNo())
+			.memberId(member.getMemberId())
 			.memberEmail(member.getMemberEmail())
 			.memberNickname(member.getMemberNickname())
+			.blogId(member.getBlog().getBlogId())
 			.build();
 	}
 }

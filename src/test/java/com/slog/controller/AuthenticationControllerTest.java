@@ -71,9 +71,10 @@ class AuthenticationControllerTest {
 			.build();
 
 		JoinResponse response = JoinResponse.builder()
-			.memberNo(1L)
+			.memberId(1L)
 			.memberEmail(request.getMemberEmail())
 			.memberNickname(request.getMemberNickname())
+			.blogId(1L)
 			.build();
 
 		given(memberService.join(any())).willReturn(response);
@@ -84,9 +85,10 @@ class AuthenticationControllerTest {
 				.content(objectMapper.writeValueAsBytes(request)))
 			.andExpect(status().isOk())
 			.andExpect(jsonPath("$.resultCode").value("SUCCESS"))
-			.andExpect(jsonPath("$.data.memberNo").value(1L))
+			.andExpect(jsonPath("$.data.memberId").value(1L))
 			.andExpect(jsonPath("$.data.memberEmail").value("test@email.com"))
 			.andExpect(jsonPath("$.data.memberNickname").value("test"))
+			.andExpect(jsonPath("$.data.blogId").value(1L))
 			.andDo(print())
 			.andDo(document("auth/join-success",
 				preprocessRequest(prettyPrint()),
@@ -98,9 +100,10 @@ class AuthenticationControllerTest {
 				),
 				responseFields(
 					fieldWithPath("resultCode").description("결과 코드"),
-					fieldWithPath("data.memberNo").description("회원 번호"),
+					fieldWithPath("data.memberId").description("회원 번호"),
 					fieldWithPath("data.memberEmail").description("회원 이메일"),
-					fieldWithPath("data.memberNickname").description("회원 닉네임")
+					fieldWithPath("data.memberNickname").description("회원 닉네임"),
+					fieldWithPath("data.blogId").description("블로그 번호")
 				)));
 		;
 	}

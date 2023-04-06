@@ -32,7 +32,7 @@ public class Member implements UserDetails {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long memberNo;
+	private Long memberId;
 
 	@Column(unique = true)
 	private String memberEmail;

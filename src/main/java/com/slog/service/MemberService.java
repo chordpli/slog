@@ -10,6 +10,7 @@ import com.slog.config.JwtUtils;
 import com.slog.domain.dto.member.AuthenticationRequest;
 import com.slog.domain.dto.member.JoinRequest;
 import com.slog.domain.dto.member.JoinResponse;
+import com.slog.domain.entity.Blog;
 import com.slog.domain.entity.Member;
 import com.slog.exception.ErrorCode;
 import com.slog.exception.SlogAppException;
@@ -26,6 +27,7 @@ public class MemberService {
 	private final MemberRepository memberRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final JwtUtils jwtUtils;
+	private final BlogService blogService;
 
 	public String authentication(AuthenticationRequest request) {
 		final UserDetails user = memberRepository.findByMemberEmail(request.getEmail())
@@ -50,7 +52,9 @@ public class MemberService {
 			throw new SlogAppException(ErrorCode.DUPLICATED_MEMBER_NICKNAME, ErrorCode.DUPLICATED_MEMBER_NICKNAME.getMessage());
 		}
 
-		Member member = memberRepository.save(JoinRequest.toEntity(request, passwordEncoder));
+		// todo: 블로그 생성 로직
+		Blog blog = blogService.createBlog(request.getMemberNickname());
+		Member member = memberRepository.save(JoinRequest.toEntity(request, passwordEncoder, blog));
 
 		return JoinResponse.of(member);
 	}

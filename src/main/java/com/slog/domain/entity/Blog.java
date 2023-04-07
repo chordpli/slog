@@ -35,4 +35,8 @@ public class Blog {
 			.blogTitle(memberNickname + "님의 블로그")
 			.build();
 	}
+
+	public void rename(String name) {
+		this.blogTitle = name;
+	}
 }

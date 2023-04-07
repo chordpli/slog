@@ -1,0 +1,49 @@
+=== 1. JOIN
+
+==== 회원가입
+
+**Request-Fields**
+include::{snippets}/auth/join-success/request-fields.adoc[]
+include::{snippets}/auth/join-success/http-request.adoc[]
+
+`*_1. Success_*`
+|===
+| 상태 코드 | 설명
+| `200` | OK
+|===
+
+**Response**
+include::{snippets}/auth/join-success/http-response.adoc[]
+
+`*_2. Fail_*`
+
+|===
+| 상태 코드 | 상태 코드 설명 | 설명
+| `409` | Conflict | 사용자 존재
+|===
+**Response**
+include::{snippets}/auth/join-fail-duplicated-member/http-response.adoc[]
+
+== 로그인
+
+**Request-Fields**
+include::{snippets}/auth/authenticate-success/request-fields.adoc[]
+include::{snippets}/auth/authenticate-success/http-request.adoc[]
+
+`*_1. Success_*`
+|===
+| 상태 코드 | 설명
+| `200` | OK
+|===
+
+**Response**
+include::{snippets}/auth/authenticate-success/http-response.adoc[]
+
+`*_2. Fail_*`
+
+|===
+| 상태 코드 | 상태 코드 설명 | 설명
+| `409` | Conflict | 정보 불일치
+|===
+**Response**
+include::{snippets}/auth/authenticate-fail-inconsistent-information/http-response.adoc[]

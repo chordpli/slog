@@ -33,8 +33,8 @@ public class Response<T> {
 
 	public ResponseEntity<Object> toResponseEntity() {
 		Map<String, Object> responseMap = new HashMap<>();
-		responseMap.put("code", resultCode.getCode());
-		responseMap.put("message", resultCode.getMessage());
+		responseMap.put("code", resultCode.getHttpStatus().value());
+		responseMap.put("message", resultCode.getHttpStatus().getReasonPhrase());
 		responseMap.put("data", data);
 
 		return ResponseEntity.status(resultCode.getHttpStatus()).body(responseMap);

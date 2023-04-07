@@ -1,7 +1,7 @@
 ---
 name: Feature Request
 about: 새로운 기능을 요청하는 사용자가 해당 기능의 필요성과 구현 방법 등을 명확하게 작성하기 위해 사용됩니다.
-title: "[FEAT]"
+title: "feat: "
 labels: feat
 assignees: ''
 

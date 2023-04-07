@@ -94,11 +94,11 @@ class MemberServiceTest {
 		given(memberRepository.existsByMemberNickname(joinRequest.getMemberNickname())).willReturn(false);
 		given(passwordEncoder.encode(joinRequest.getMemberPassword())).willReturn("Password123$");
 		given(memberRepository.save(any(Member.class))).willReturn(member);
-		given(member.getMemberNo()).willReturn(1L);
+		given(member.getMemberId()).willReturn(1L);
 
 		JoinResponse result = memberService.join(joinRequest);
 
-		assertEquals(1L, result.getMemberNo());
+		assertEquals(1L, result.getMemberId());
 	}
 
 	@Test

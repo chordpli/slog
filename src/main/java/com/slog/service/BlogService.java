@@ -1,5 +1,7 @@
 package com.slog.service;
 
+import java.util.Objects;
+
 import org.springframework.stereotype.Service;
 
 import com.slog.domain.dto.blog.RenameBlogRequest;
@@ -27,17 +29,22 @@ public class BlogService {
 	public RenameBlogResponse renameBlog(String memberEmail, RenameBlogRequest request, Long blogId) {
 		Member member = memberRepository.findByMemberEmail(memberEmail)
 			.orElseThrow(() -> {
-			throw new SlogAppException(ErrorCode.NOT_FOUND, ErrorCode.NOT_FOUND.getMessage());
-		});
-		;
+				throw new SlogAppException(ErrorCode.NOT_FOUND, ErrorCode.NOT_FOUND.getMessage());
+			});
+
 		Blog blog = blogRepository.findById(blogId)
 			.orElseThrow(() -> {
 				throw new SlogAppException(ErrorCode.NOT_FOUND, ErrorCode.NOT_FOUND.getMessage());
 			});
 
+		if (!Objects.equals(member.getBlog().getBlogId(), blog.getBlogId())) {
+			throw new SlogAppException(ErrorCode.INCONSISTENT_INFORMATION,
+				ErrorCode.INCONSISTENT_INFORMATION.getMessage());
+		}
+
 		blog.rename(request.getName());
 		blogRepository.save(blog);
 
-		return RenameBlogResponse.builder().blogId(blog.getBlogId()).blogName(blog.getBlogTitle()).build();
+		return RenameBlogResponse.fromEntity(blog);
 	}
 }

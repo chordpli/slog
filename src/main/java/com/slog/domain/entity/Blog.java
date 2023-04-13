@@ -36,7 +36,7 @@ public class Blog {
 	}
 
 	public void rename(String name) {
-		if (name.length() > 25) {
+		if (name.length() > 25 || name.isEmpty()) {
 			throw new SlogAppException(ErrorCode.INPUTS_THAT_DO_NOT_MEET_REQUIREMENTS, ErrorCode.INPUTS_THAT_DO_NOT_MEET_REQUIREMENTS.getMessage());
 		}
 		this.blogTitle = name;

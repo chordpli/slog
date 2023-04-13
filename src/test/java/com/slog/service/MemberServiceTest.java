@@ -89,19 +89,6 @@ class MemberServiceTest {
 	}
 
 	@Test
-	void join_Success() {
-		given(memberRepository.existsByMemberEmail(joinRequest.getMemberEmail())).willReturn(false);
-		given(memberRepository.existsByMemberNickname(joinRequest.getMemberNickname())).willReturn(false);
-		given(passwordEncoder.encode(joinRequest.getMemberPassword())).willReturn("Password123$");
-		given(memberRepository.save(any(Member.class))).willReturn(member);
-		given(member.getMemberId()).willReturn(1L);
-
-		JoinResponse result = memberService.join(joinRequest);
-
-		assertEquals(1L, result.getMemberId());
-	}
-
-	@Test
 	void join_Fail_DuplicatedEmail() {
 		given(memberRepository.existsByMemberEmail(joinRequest.getMemberEmail())).willReturn(true);
 

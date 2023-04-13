@@ -110,6 +110,11 @@ class BlogRestControllerTest {
 			.name("블로그 제목이 공백입니다.") // 빈 블로그 이름
 			.build();
 
+		RenameBlogRequest request2 = RenameBlogRequest
+			.builder()
+			.name("블로그 제목이 25자 초과입니다.") // 빈 블로그 이름
+			.build();
+
 		long blogId = 1L;
 
 		given(blogService.renameBlog(any(), any(), any())).willThrow(
@@ -191,7 +196,7 @@ class BlogRestControllerTest {
 			.andExpect(jsonPath("$.resultCode").value("NOT_FOUND"))
 			.andExpect(jsonPath("$.data.message").value("해당 페이지를 찾을 수 없습니다."))
 			.andDo(print())
-			.andDo(document("blog/rename-fail-not-found",
+			.andDo(document("blog/rename/rename-fail-not-found",
 				preprocessRequest(prettyPrint()),
 				preprocessResponse(prettyPrint()),
 				requestFields(

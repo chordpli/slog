@@ -3,8 +3,8 @@
 ==== 블로그 이름 변경
 
 **Request-Fields**
-include::{snippets}/blog/rename-success/request-fields.adoc[]
-include::{snippets}/blog/rename-success/http-request.adoc[]
+include::{snippets}/blog/rename/rename-success/request-fields.adoc[]
+include::{snippets}/blog/rename/rename-success/http-request.adoc[]
 
 `*_1. Success_*`
 |===
@@ -13,37 +13,27 @@ include::{snippets}/blog/rename-success/http-request.adoc[]
 |===
 
 **Response**
-include::{snippets}/blog/rename-success/http-response.adoc[]
+include::{snippets}/blog/rename/rename-success/http-response.adoc[]
 
 `*_2. Fail_*`
 
 |===
 | 상태 코드 | 상태 코드 설명 | 설명
-| `409` | Conflict | 사용자 존재
+| `404` | NotFound | 블로그가 존재하지 않음.
 |===
 **Response**
-include::{snippets}/auth/join-fail-duplicated-member/http-response.adoc[]
-
-== 로그인
-
-**Request-Fields**
-include::{snippets}/auth/authenticate-success/request-fields.adoc[]
-include::{snippets}/auth/authenticate-success/http-request.adoc[]
-
-`*_1. Success_*`
-|===
-| 상태 코드 | 설명
-| `200` | OK
-|===
-
-**Response**
-include::{snippets}/auth/authenticate-success/http-response.adoc[]
-
-`*_2. Fail_*`
+include::{snippets}/blog/rename/rename-fail-not-found/http-response.adoc[]
 
 |===
 | 상태 코드 | 상태 코드 설명 | 설명
-| `409` | Conflict | 정보 불일치
+| `401` | UNAUTHORIZED | 요청자와 블로그 작성자의 정보 불일치
 |===
 **Response**
-include::{snippets}/auth/authenticate-fail-inconsistent-information/http-response.adoc[]
+include::{snippets}/blog/rename/rename-fail-unauthorized/http-response.adoc[]
+
+|===
+| 상태 코드 | 상태 코드 설명 | 설명
+| `400` | BadRequest | 블로그 제목이 25자 초과 또는 공백.
+|===
+**Response**
+include::{snippets}/blog/rename/rename-fail-invalid-request/http-response.adoc[]

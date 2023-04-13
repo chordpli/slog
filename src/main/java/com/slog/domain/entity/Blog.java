@@ -1,13 +1,12 @@
 package com.slog.domain.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+
+import com.slog.exception.ErrorCode;
+import com.slog.exception.SlogAppException;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,5 +33,12 @@ public class Blog {
 			.blogLogoUrl("basic img url")
 			.blogTitle(memberNickname + "님의 블로그")
 			.build();
+	}
+
+	public void rename(String name) {
+		if (name.length() > 25 || name.isEmpty()) {
+			throw new SlogAppException(ErrorCode.INPUTS_THAT_DO_NOT_MEET_REQUIREMENTS, ErrorCode.INPUTS_THAT_DO_NOT_MEET_REQUIREMENTS.getMessage());
+		}
+		this.blogTitle = name;
 	}
 }

@@ -1,7 +1,6 @@
 package com.slog.controller;
 
-import javax.validation.Valid;
-
+import jakarta.validation.Valid;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

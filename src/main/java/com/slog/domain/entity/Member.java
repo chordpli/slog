@@ -5,15 +5,7 @@ import com.slog.domain.enums.MemberStatus;
 import java.util.Collection;
 import java.util.Collections;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-
+import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,6 +32,7 @@ public class Member implements UserDetails {
 
 	@Column(unique = true)
 	private String memberNickname;
+	@Enumerated(EnumType.STRING)
 	private MemberStatus memberStatus;
 	private String memberSNSProvider;
 

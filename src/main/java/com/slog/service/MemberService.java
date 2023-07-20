@@ -58,4 +58,8 @@ public class MemberService {
 
 		return JoinResponse.of(member);
 	}
+
+	public void testQueryDsl() {
+		memberRepository.testQueryDsl();
+	}
 }

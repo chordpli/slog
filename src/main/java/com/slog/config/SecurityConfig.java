@@ -35,9 +35,9 @@ public class SecurityConfig {
 		http
 			.csrf().disable()
 			.authorizeHttpRequests()
-			.antMatchers(HttpMethod.GET,"/**")
+			.requestMatchers(HttpMethod.GET,"/**")
 			.permitAll()
-			.antMatchers("/**/auth/**")
+			.requestMatchers("/**/auth/**")
 			.permitAll()
 			.anyRequest()
 			.authenticated()
@@ -48,7 +48,7 @@ public class SecurityConfig {
 			.authenticationProvider(authenticationProvider())
 			.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
-		return http.build();
+		return http.getOrBuild();
 	}
 
 	@Bean
